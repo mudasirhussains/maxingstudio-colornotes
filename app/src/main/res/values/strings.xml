@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Color Notes</string>
+    <string name="note_your_daily_routine_plans">Note your daily routine plans</string>
+    <string name="color_notes">Color Notes</string>
+    <string name="nav_favorite">Favorite</string>
+    <string name="nav_calender">Calender</string>
+    <string name="nav_all_notes">All Notes</string>
+    <string name="nav_trash">Trash</string>
+    <string name="nav_setting">Setting</string>
+    <string name="nav_rate_us">Rate Us</string>
+    <string name="nav_share">Share</string>
+    <string name="nav_privacy_policy">Privacy Policy</string>
+    <string name="menu_select">Select</string>
+    <string name="menu_sort">Sort</string>
+    <string name="menu_grid_view">Grid View</string>
+    <string name="menu_linear_view">Linear View</string>
+    <string name="menu_delete_view">delete View</string>
+    <string name="menu_search">Search</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sort_by">Sort By</string>
+    <string name="newest_modification_first">Newest Modification First</string>
+    <string name="oldest_modification_first">Oldest Modification First</string>
+    <string name="name_a_z">Name A-Z</string>
+    <string name="name_z_a">Name Z-A</string>
+    <string name="cancel">Cancel</string>
+    <string name="undo">Undo</string>
+    <string name="ok">OK</string>
+
+    <string name="search_notes">Search notes</string>
+    <string name="my_notes">My Notes</string>
+    <string name="note_title">Note title</string>
+    <string name="note_subtitle">Note subtitle</string>
+    <string name="miscellaneous">Extra Features</string>
+    <string name="note_color">Note color</string>
+    <string name="type_note_here">Type noteModel here</string>
+    <string name="add_image">Add image</string>
+    <string name="add_web_link">Add web link</string>
+    <string name="enter_web_link">Enter web link</string>
+    <string name="add">ADD</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="are_you_sure_you_want_to_delete_this_note">Are you sure you want to delete this note?</string>
+    <string name="you_can_either">You can either undo or delete note!</string>
+    <string name="app_version">v 1.1.0</string>
+    <string name="developer_name">Developed by Tom Munyiri</string>
+
+<!--    Original IDS-->
+        <string name="banner_ad_unit_id">ca-app-pub-4820125560371856/4226500178</string>
+        <string name="interstitial_ad_unit_id">ca-app-pub-4820125560371856/4644221002</string>
+        <string name="native_ad_unit_id">ca-app-pub-4820125560371856/2018057669</string>
+
+<!--    Testing IDs-->
+<!--    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
+<!--    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>-->
+<!--    <string name="native_ad_unit_id">ca-app-pub-3940256099942544/2247696110</string>-->
+    <string name="get_started">Get Started</string>
+</resources>

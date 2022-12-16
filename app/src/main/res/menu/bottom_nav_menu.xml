@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mHome"
+        android:icon="@drawable/ic_sheet_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/mSearch"
+        android:icon="@drawable/ic_sheet_main"
+        android:title="Add Note" />
+    <item
+        android:id="@+id/mplaceholder"
+        android:icon="@drawable/ic_sheet_calender"
+        android:title="Calender" />
+</menu>

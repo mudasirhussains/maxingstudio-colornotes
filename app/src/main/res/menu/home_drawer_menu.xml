@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_all_notes"
+            android:icon="@drawable/ic_drawer_one"
+            android:title="@string/nav_all_notes" />
+
+        <item
+            android:id="@+id/nav_calender"
+            android:icon="@drawable/ic_drawer_two"
+            android:title="@string/nav_calender" />
+
+        <item
+            android:id="@+id/nav_fav"
+            android:icon="@drawable/ic_drawer_four"
+            android:title="@string/nav_favorite" />
+
+        <item
+            android:id="@+id/nav_trash"
+            android:icon="@drawable/ic_drawer_five"
+            android:title="@string/nav_trash" />
+
+<!--        <item-->
+<!--            android:id="@+id/nav_setting"-->
+<!--            android:icon="@drawable/ic_drawer_six"-->
+<!--            android:title="@string/nav_setting" />-->
+
+        <item
+            android:id="@+id/nav_rate"
+            android:icon="@drawable/ic_drawer_seven"
+            android:title="@string/nav_rate_us" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_drawer_eight"
+            android:title="@string/nav_share" />
+        <item
+            android:id="@+id/nav_policy"
+            android:icon="@drawable/ic_drawer_nine"
+            android:title="@string/nav_privacy_policy" />
+
+    </group>
+</menu>

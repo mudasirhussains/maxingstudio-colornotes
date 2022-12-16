@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation.xml"
+    app:startDestination="@id/allNotesFragment">
+
+    <fragment
+        android:id="@+id/allNotesFragment"
+        android:name="com.notes.colornotes.fragments.allnotes.MainFragment"
+        android:label="AllNotesFragment"
+        tools:layout="@layout/fragment_main" />
+
+    <fragment
+        android:id="@+id/addNotesFragment"
+        android:name="com.notes.colornotes.fragments.allnotes.bottom.AddNoteFragment"
+        android:label="AddNotesFragment"
+        tools:layout="@layout/fragment_add_note" />
+
+    <fragment
+        android:id="@+id/calenderFragment"
+        android:name="com.notes.colornotes.fragments.allnotes.bottom.CalenderFragment"
+        android:label="CalenderFragment"
+        tools:layout="@layout/fragment_calender" />
+</navigation>
