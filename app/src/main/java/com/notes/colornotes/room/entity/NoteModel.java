@@ -33,6 +33,9 @@ public class NoteModel implements Serializable {
     @ColumnInfo(name = "web_link")
     private String webLink;
 
+    @ColumnInfo(name = "category")
+    private String category;
+
     @ColumnInfo(name = "is_trash")
     private Boolean isTrash;
 
@@ -126,5 +129,13 @@ public class NoteModel implements Serializable {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }

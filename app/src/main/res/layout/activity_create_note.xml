@@ -30,9 +30,10 @@
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/_2sdp"
                 android:src="@drawable/ic_back"
-                app:tint="@color/colorIcons"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/colorIcons" />
+
 
             <ImageView
                 android:id="@+id/imageSave"
@@ -44,16 +45,147 @@
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/_2sdp"
                 android:src="@drawable/ic_save"
-                app:tint="@color/colorIcons"
                 app:layout_constraintBottom_toBottomOf="@+id/imageBack"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageBack" />
+                app:layout_constraintTop_toTopOf="@+id/imageBack"
+                app:tint="@color/colorIcons" />
+
+            <ImageView
+                android:id="@+id/imgShare"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_ios_share"
+                app:layout_constraintBottom_toBottomOf="@+id/imageBack"
+                app:layout_constraintEnd_toStartOf="@+id/imageSave"
+                app:layout_constraintTop_toTopOf="@+id/imageBack"
+                app:tint="@color/colorIcons" />
+
+            <ImageView
+                android:id="@+id/imgRedo"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_redo"
+                app:layout_constraintBottom_toBottomOf="@+id/imageBack"
+                app:layout_constraintEnd_toStartOf="@+id/imgShare"
+                app:layout_constraintTop_toTopOf="@+id/imageBack"
+                app:tint="@color/colorIcons" />
+
+            <ImageView
+                android:id="@+id/imgUndo"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/app_name"
+                android:padding="@dimen/_2sdp"
+                android:src="@drawable/ic_undo"
+                app:layout_constraintBottom_toBottomOf="@+id/imageBack"
+                app:layout_constraintEnd_toStartOf="@+id/imgRedo"
+                app:layout_constraintTop_toTopOf="@+id/imageBack"
+                app:tint="@color/colorIcons" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:id="@+id/categorySection"
+            android:layout_below="@+id/layoutToolbar"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category: "
+                    android:textColor="@color/colorIcons"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardSelectCategory"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:backgroundTint="#505050"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    app:cardCornerRadius="@dimen/_4sdp">
+
+                    <TextView
+                        android:id="@+id/txtSelectedCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:drawableEnd="@drawable/ic_arrow_drop_down"
+                        android:ellipsize="end"
+                        android:gravity="center|start"
+                        android:text="Select category"
+                        android:paddingStart="@dimen/_3sdp"
+                        android:textColor="@color/white" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: "
+                    android:textColor="@color/colorIcons"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardSelectDate"
+                    android:layout_width="@dimen/_120sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:backgroundTint="#505050"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    app:cardCornerRadius="@dimen/_4sdp">
+
+                    <TextView
+                        android:id="@+id/txtSelectedDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:drawableEnd="@drawable/ic_arrow_drop_down"
+                        android:ellipsize="end"
+                        android:gravity="center|start"
+                        android:text="Select Date"
+                        android:paddingStart="@dimen/_3sdp"
+                        android:textColor="@color/white" />
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
+
+
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layoutToolbar"
+            android:layout_below="@+id/categorySection"
             android:layout_marginBottom="@dimen/_40sdp"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/_10sdp">

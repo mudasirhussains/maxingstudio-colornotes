@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.provider.MediaStore
 import android.text.Editable
@@ -37,12 +36,14 @@ import com.notes.colornotes.addnotes.CreateNoteActivity
 import com.notes.colornotes.addnotes.NotesListener
 import com.notes.colornotes.addnotes.adapter.NotesAdapter
 import com.notes.colornotes.databinding.FragmentMainBinding
+import com.notes.colornotes.fragments.allnotes.categories.CategoriesAdapter
+import com.notes.colornotes.fragments.allnotes.categories.CategoriesListeners
 import com.notes.colornotes.room.database.DatabaseBuilder
 import com.notes.colornotes.room.entity.NoteModel
-import com.notes.colornotes.splash.SplashSecondActivity
 import java.io.File
 
-class MainFragment : Fragment(), NotesListener {
+
+class MainFragment : Fragment(), NotesListener, CategoriesListeners {
 
 
     lateinit var binding: FragmentMainBinding
@@ -54,9 +55,8 @@ class MainFragment : Fragment(), NotesListener {
     val REQUEST_CODE_STORAGE_PERMISSION = 5
     lateinit var noteList: ArrayList<NoteModel>
     private var notesAdapter: NotesAdapter? = null
+    private var categoriesAdapter: CategoriesAdapter? = null
     private var noteClickedPosition = -1
-    private val dialogAddURL: AlertDialog? = null
-    private var dialogAppInfo: androidx.appcompat.app.AlertDialog? = null
     private var isLinear = false
     private var positionRadio = 1
     private var mInterstitialAd: InterstitialAd? = null
@@ -85,11 +85,8 @@ class MainFragment : Fragment(), NotesListener {
         loadAd()
         Handler().postDelayed({
             toNextLevel()
-        },3000)
+        }, 3000)
 
-
-
-        //TODO Enable switching between LinearLayout and StaggeredGridLayout
         //binding.notesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         setGridRecycler()
         noteList = ArrayList()
@@ -103,18 +100,7 @@ class MainFragment : Fragment(), NotesListener {
             binding.srNotes.isRefreshing = false
         }
 
-//        binding.inputSearch.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                notesAdapter!!.cancelTimer()
-//            }
-//
-//            override fun afterTextChanged(s: Editable) {
-//                if ((noteList).size != 0) {
-//                    notesAdapter!!.searchNotes(s.toString())
-//                }
-//            }
-//        })
+        setCategoriesAdapter()
 
         val toolbarSearch =
             requireActivity().findViewById<AppCompatEditText>(R.id.etSearch) as AppCompatEditText
@@ -131,30 +117,58 @@ class MainFragment : Fragment(), NotesListener {
             }
         })
 
-
         setHasOptionsMenu(true)
 
         return binding.root
 
     }
 
+    private fun setCategoriesAdapter() {
+        val mList = ArrayList<String>()
+        var filteredCategories: ArrayList<NoteModel>? = null
+        val categoryList: ArrayList<NoteModel> = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllNotes() as ArrayList<NoteModel>
+        if (categoryList.isNotEmpty()) {
+            binding.txtCategoryHome.visibility = View.VISIBLE
+            filteredCategories?.clear()
+            filteredCategories = categoryList.filter { s ->
+                !s.category.equals(
+                    "select category",
+                    true
+                )
+            } as ArrayList<NoteModel>
+        }
+        filteredCategories?.forEach { res ->
+            mList.add(res.category.toString())
+        }
+        val distinct: List<String> = mList.toSet().toList()
+        categoriesAdapter = CategoriesAdapter(distinct, this)
+        val layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.recyclerHomeCategories.layoutManager = layoutManager
+        binding.recyclerHomeCategories.adapter = categoriesAdapter
+    }
+
     private fun loadAds() {
-        binding.adView.adListener = object : AdListener(){
+        binding.adView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(p0: LoadAdError) {
                 super.onAdFailedToLoad(p0)
                 val toastMessage: String = "ad fail to load"
                 //Toast.makeText(requireContext(), toastMessage.toString(), Toast.LENGTH_LONG).show()
             }
+
             override fun onAdLoaded() {
                 super.onAdLoaded()
                 val toastMessage: String = "ad loaded"
-               // Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+                // Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
             }
+
             override fun onAdOpened() {
                 super.onAdOpened()
                 val toastMessage: String = "ad is open"
 //                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
             }
+
             override fun onAdClicked() {
                 super.onAdClicked()
                 val toastMessage: String = "ad is clicked"
@@ -166,6 +180,7 @@ class MainFragment : Fragment(), NotesListener {
                 val toastMessage: String = "ad is closed"
 //                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
             }
+
             override fun onAdImpression() {
                 super.onAdImpression()
                 val toastMessage: String = "ad impression"
@@ -246,8 +261,6 @@ class MainFragment : Fragment(), NotesListener {
                 .updateForFavorite(false, noteModel.id)
         }
     }
-
-
 
 
     private fun getNotes(requestCode: Int, isNoteDeleted: Boolean) {
@@ -365,7 +378,7 @@ class MainFragment : Fragment(), NotesListener {
         val radioThree = layoutView.findViewById<RadioButton>(R.id.arrange_radio_btn3)
         val radioFour = layoutView.findViewById<RadioButton>(R.id.arrange_radio_btn4)
 
-        when(positionRadio){
+        when (positionRadio) {
             1 -> {
                 radioOne.isChecked = true
             }
@@ -419,34 +432,39 @@ class MainFragment : Fragment(), NotesListener {
         dialog.show()
     }
 
-    private fun sortAscending(){
+    private fun sortAscending() {
         noteList.clear()
-        noteList = DatabaseBuilder.getInstance(requireContext()).dao().getAllNotes() as ArrayList<NoteModel>
+        noteList = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllNotes() as ArrayList<NoteModel>
         notesAdapter = NotesAdapter(noteList, this)
         binding.notesRecyclerView.adapter = notesAdapter
     }
+
     private fun sortDescending() {
         noteList.clear()
-        noteList = DatabaseBuilder.getInstance(requireContext()).dao().getAllSortByOldest() as ArrayList<NoteModel>
+        noteList = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllSortByOldest() as ArrayList<NoteModel>
         notesAdapter = NotesAdapter(noteList, this)
         binding.notesRecyclerView.adapter = notesAdapter
     }
 
     private fun sortAtoZ() {
         noteList.clear()
-        noteList = DatabaseBuilder.getInstance(requireContext()).dao().getAllSortByAZ() as ArrayList<NoteModel>
+        noteList = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllSortByAZ() as ArrayList<NoteModel>
         notesAdapter = NotesAdapter(noteList, this)
         binding.notesRecyclerView.adapter = notesAdapter
     }
 
     private fun sortZtoA() {
         noteList.clear()
-        noteList = DatabaseBuilder.getInstance(requireContext()).dao().getAllSortByZA() as ArrayList<NoteModel>
+        noteList = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllSortByZA() as ArrayList<NoteModel>
         notesAdapter = NotesAdapter(noteList, this)
         binding.notesRecyclerView.adapter = notesAdapter
     }
 
-    private fun actionDelete(){
+    private fun actionDelete() {
         val deleteList: ArrayList<Int> = ArrayList()
         if (notesAdapter?.getSelected()?.size!! > 0) {
             val stringBuilder = StringBuilder()
@@ -480,7 +498,7 @@ class MainFragment : Fragment(), NotesListener {
     }
 
     override fun onPause() {
-        if (binding.adView!=null) {
+        if (binding.adView != null) {
             binding.adView.pause();
         }
         super.onPause()
@@ -488,13 +506,14 @@ class MainFragment : Fragment(), NotesListener {
 
     override fun onResume() {
         super.onResume()
-        if (binding.adView!=null) {
+        if (binding.adView != null) {
             binding.adView.resume();
         }
+        setCategoriesAdapter()
     }
 
     override fun onDestroy() {
-        if (binding.adView!=null) {
+        if (binding.adView != null) {
             binding.adView.resume();
         }
         super.onDestroy()
@@ -536,7 +555,7 @@ class MainFragment : Fragment(), NotesListener {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     // Handle the error
                     mInterstitialAd = null
-                    Log.d("kkki==", "onAdFailedToLoad: "+loadAdError.message)
+                    Log.d("kkki==", "onAdFailedToLoad: " + loadAdError.message)
                 }
             })
     }
@@ -569,7 +588,7 @@ class MainFragment : Fragment(), NotesListener {
             }
 
             override fun onPostExecute(result: ArrayList<File>?) {
-              toNextLevel()
+                toNextLevel()
             }
 
             override fun onPreExecute() {
@@ -578,6 +597,17 @@ class MainFragment : Fragment(), NotesListener {
 
         }
         AsyncLoadData().execute()
+    }
+
+    override fun onCategoriesClicked(position: Int, category: String?) {
+        noteList.clear()
+        noteList = DatabaseBuilder.getInstance(requireContext()).dao()
+            .getAllNotes() as ArrayList<NoteModel>
+        if (noteList.isNotEmpty()) {
+            noteList = noteList.filter { s -> s.category.equals(category) } as ArrayList<NoteModel>
+        }
+        notesAdapter = NotesAdapter(noteList, this)
+        binding.notesRecyclerView.adapter = notesAdapter
     }
 
 }

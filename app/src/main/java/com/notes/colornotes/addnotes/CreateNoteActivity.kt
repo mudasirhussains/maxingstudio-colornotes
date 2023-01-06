@@ -2,6 +2,7 @@ package com.notes.colornotes.addnotes
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,11 +16,10 @@ import android.os.AsyncTask
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Patterns
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -32,11 +32,14 @@ import com.notes.colornotes.R
 import com.notes.colornotes.databinding.ActivityCreateNoteBinding
 import com.notes.colornotes.room.database.DatabaseBuilder
 import com.notes.colornotes.room.entity.NoteModel
-import com.notes.colornotes.util.ICreateNoteActivity
+import com.notes.colornotes.util.ICreateNoteListener
+import com.notes.colornotes.util.TextViewUndoRedo
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
+
+class CreateNoteActivity : AppCompatActivity(),
+    ICreateNoteListener {
     private var selectedNoteColor: String? = null
     private var selectedImagePath: String? = null
     private val REQUEST_CODE_STORAGE_PERMISSION = 1
@@ -46,6 +49,8 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
     private var alreadyAvailableNote: NoteModel? = null
     lateinit var binding: ActivityCreateNoteBinding
     private var mInterstitialAd: InterstitialAd? = null
+    var cal = Calendar.getInstance()
+    lateinit var helper: TextViewUndoRedo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
@@ -58,10 +63,14 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
         // load ad
         loadAd();
 
+        helper = TextViewUndoRedo(binding.inputNoteText)
+
 
         //format the date as in example: Friday, 19 June 2020 08:35 PM
-        binding.textDateTime.text =
-            SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault())
+        binding.txtSelectedDate.text =
+//            SimpleDateFormat("EEEE, dd MMMM yyyy HH:mm a", Locale.getDefault())
+//                .format(Date())
+        SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
                 .format(Date())
 
 //        binding.imageSave.isEnabled = false
@@ -73,6 +82,17 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
                 saveNote()
             }
         }
+
+        // undo/redo
+        binding.imgUndo.setOnClickListener {
+            helper.undo()
+        }
+
+        binding.imgRedo.setOnClickListener {
+            helper.redo()
+        }
+
+
 
         selectedNoteColor = "#333333"
         selectedImagePath = ""
@@ -111,6 +131,114 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
 
         initMiscellaneous()
         setSubtitleIndicatorColor()
+
+        callBacks()
+    }
+
+    private fun callBacks() {
+        binding.cardSelectCategory.setOnClickListener {
+            callCategoryPopup()
+        }
+        binding.txtSelectedDate.setOnClickListener {
+            callDatePicker()
+        }
+
+        binding.imgShare.setOnClickListener {
+            sharePlaneText()
+        }
+    }
+
+    private fun sharePlaneText() {
+        val finalText: String = "Color Notes \n\n Title: "+binding.inputNoteTitle.text.toString()+
+                "\n Subtitle: "+binding.inputNoteSubtitle.text.toString()+
+                "\n Notes: "+binding.inputNoteText.text.toString()
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_TEXT, finalText)
+        startActivity(Intent.createChooser(intent, "Share Via"))
+    }
+
+    private fun callDatePicker() {
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+                cal.set(Calendar.YEAR, year)
+                cal.set(Calendar.MONTH, monthOfYear)
+                cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                val myFormat = "MM/dd/yyyy" // mention the format you need
+                val sdf = SimpleDateFormat(myFormat, Locale.US)
+                binding.txtSelectedDate.text = sdf.format(cal.time)
+            }
+        DatePickerDialog(
+            this@CreateNoteActivity,
+            dateSetListener,
+            // set DatePickerDialog to point to today's date when it loads up
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun callCategoryPopup() {
+        val factory = LayoutInflater.from(this@CreateNoteActivity)
+        val layoutView: View = factory.inflate(R.layout.category_selection_dialog, null)
+        val dialog = AlertDialog.Builder(this@CreateNoteActivity).create()
+        dialog.setView(layoutView)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val etCategory = layoutView.findViewById<EditText>(R.id.etSelectedCategory)
+        if (binding.txtSelectedCategory.text.toString() != ("Select category")){
+            etCategory.setText(binding.txtSelectedCategory.text.toString())
+        }
+        etCategory.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.error = null
+        }
+
+        val catHome = layoutView.findViewById<TextView>(R.id.chipItemHome)
+        catHome.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.error = null
+            etCategory.setText(catHome.text.toString())
+        }
+        val catWork = layoutView.findViewById<TextView>(R.id.chipItemWork)
+        catWork.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.error = null
+            etCategory.setText(catWork.text.toString())
+        }
+        val catShopping = layoutView.findViewById<TextView>(R.id.chipItemShopping)
+        catShopping.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.error = null
+            etCategory.setText(catShopping.text.toString())
+        }
+        val catSchool = layoutView.findViewById<TextView>(R.id.chipItemSchool)
+        catSchool.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.error = null
+            etCategory.setText(catSchool.text.toString())
+        }
+        val catStudy = layoutView.findViewById<TextView>(R.id.chipItemStudy)
+        catStudy.setOnClickListener {
+            etCategory.clearFocus()
+            etCategory.setText(catStudy.text.toString())
+        }
+
+
+        layoutView.findViewById<TextView>(R.id.categoryOk).setOnClickListener {
+            if (etCategory.text.toString().isNullOrEmpty()){
+                etCategory.requestFocus()
+                etCategory.error = "Must Not Be Empty"
+            }else{
+                binding.txtSelectedCategory.text = etCategory.text.toString()
+                dialog.dismiss()
+            }
+        }
+
+        layoutView.findViewById<TextView>(R.id.categoryCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+
     }
 
     private fun setBinding() {
@@ -145,6 +273,8 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
         binding.inputNoteSubtitle.setText(alreadyAvailableNote!!.subtitle)
         binding.inputNoteText.setText(alreadyAvailableNote!!.noteText)
         binding.textDateTime.text = alreadyAvailableNote!!.dateTime
+        binding.txtSelectedDate.text = alreadyAvailableNote!!.dateTime
+        binding.txtSelectedCategory.text = alreadyAvailableNote!!.category
         if (alreadyAvailableNote!!.imagePath != null && !alreadyAvailableNote!!.imagePath.trim()
                 .isEmpty()
         ) {
@@ -165,21 +295,20 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
         if (binding.inputNoteTitle.text.toString().trim().isEmpty()) {
             Toast.makeText(applicationContext, "Note title can't be empty!", Toast.LENGTH_SHORT)
                 .show()
-//            Toasty.warning(this, "Note title can't be empty!", Toasty.LENGTH_SHORT, true).show()
             return
         } else if (binding.inputNoteSubtitle.text.toString().trim()
                 .isEmpty() && binding.inputNoteText.text.toString().trim().isEmpty()
         ) {
             Toast.makeText(applicationContext, "Note can't be empty!", Toast.LENGTH_SHORT).show()
-//            Toasty.warning(this, "Note can't be empty!", Toasty.LENGTH_SHORT, true).show()
             return
         }
         val note = NoteModel()
         note.title = binding.inputNoteTitle.text.toString()
         note.subtitle = binding.inputNoteSubtitle.text.toString()
         note.noteText = binding.inputNoteText.text.toString()
-        note.dateTime = binding.textDateTime.text.toString()
+        note.dateTime = binding.txtSelectedDate.text.toString()
         note.color = selectedNoteColor
+        note.category = binding.txtSelectedCategory.text.toString()
         note.imagePath = selectedImagePath
         note.trash = false
         note.favorite = false
@@ -201,7 +330,6 @@ class CreateNoteActivity : AppCompatActivity(), ICreateNoteActivity {
             }
 
             override fun doInBackground(vararg params: Void?): Void? {
-                //NotesDatabase.getNotesDatabase(applicationContext).noteDao().insertNote(note)
                 DatabaseBuilder.getInstance(applicationContext).dao().insertNote(note)
                 return null
             }

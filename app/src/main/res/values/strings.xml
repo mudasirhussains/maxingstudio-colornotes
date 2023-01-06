@@ -22,6 +22,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="sort_by">Sort By</string>
+    <string name="add_new_cat">Add New Category</string>
     <string name="newest_modification_first">Newest Modification First</string>
     <string name="oldest_modification_first">Oldest Modification First</string>
     <string name="name_a_z">Name A-Z</string>

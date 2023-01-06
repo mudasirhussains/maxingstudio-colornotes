@@ -65,20 +65,28 @@
         <entry key="..\:/Zeeshan/notesapp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Zeeshan/notesapp/app/src/main/res/menu/home_drawer_menu.xml" value="0.25416666666666665" />
         <entry key="..\:/Zeeshan/notesapp/app/src/main/res/menu/toolbar_menu.xml" value="0.25416666666666665" />
+        <entry key="app/src/main/res/drawable/category_bg_shape.xml" value="0.1285" />
+        <entry key="app/src/main/res/drawable/category_bg_splash.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/gradient_main.xml" value="0.1255" />
+        <entry key="app/src/main/res/drawable/ic_arrow_drop_down.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/ic_filled_fav.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/ic_redo.xml" value="0.1285" />
         <entry key="app/src/main/res/drawable/ic_searchbar.xml" value="0.165" />
+        <entry key="app/src/main/res/drawable/ic_undo.xml" value="0.1285" />
         <entry key="app/src/main/res/layout/activity_calender.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/layout/activity_create_note.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/activity_favorite.xml" value="0.2828125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/activity_trash.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/category_list_item.xml" value="0.296875" />
+        <entry key="app/src/main/res/layout/category_selection_dialog.xml" value="0.128125" />
+        <entry key="app/src/main/res/layout/dialog_arrangment.xml" value="0.128125" />
         <entry key="app/src/main/res/layout/exit_dialog.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_add_note.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/item_container_note.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/layout_delete_note.xml" value="0.22604166666666667" />
-        <entry key="app/src/main/res/layout/layout_miscellaneous.xml" value="0.22604166666666667" />
+        <entry key="app/src/main/res/layout/layout_miscellaneous.xml" value="0.1" />
         <entry key="app/src/main/res/layout/layout_trash_options.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/home_drawer_menu.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/menu/toolbar_menu.xml" value="0.22604166666666667" />
