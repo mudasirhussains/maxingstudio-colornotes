@@ -8,21 +8,20 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.notes.colornotes.R
 import com.notes.colornotes.addnotes.NotesListener
 import com.notes.colornotes.room.entity.NoteModel
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class NotesAdapter(
     private var notes: ArrayList<NoteModel>,
     private val notesListener: NotesListener
 ) :
     RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+
     private var timer: Timer? = null
     var isChecked = false
     val selectedPos: ArrayList<Int> = ArrayList()
@@ -80,6 +79,10 @@ class NotesAdapter(
             }
         }
 
+        holder.optionMenu.setOnClickListener {
+            notesListener.onNoteOptionMenu(notes[holder.adapterPosition], holder.adapterPosition)
+        }
+
 
     }
 
@@ -99,6 +102,7 @@ class NotesAdapter(
         var imageNote: ImageView
         var imageFav: ImageView
         var imageCheckBox: ImageView
+        var optionMenu: ImageView
         fun setNote(note: NoteModel) {
             textTitle.text = note.title
             if (note.subtitle.trim().isEmpty()) {
@@ -130,6 +134,7 @@ class NotesAdapter(
             imageNote = itemView.findViewById(R.id.imageNote)
             imageFav = itemView.findViewById(R.id.imageFav)
             imageCheckBox = itemView.findViewById(R.id.imgCheckBox)
+            optionMenu = itemView.findViewById(R.id.imageMenuCard)
         }
     }
 

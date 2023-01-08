@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name = "com.android.launcher.permission.INSTALL_SHORTCUT" />
 
     <application
         android:allowBackup="false"
@@ -20,6 +19,7 @@
         tools:targetApi="31">
         <activity
             android:name=".splash.SplashSecondActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
 
         <meta-data
@@ -47,17 +47,16 @@
             android:exported="true"
             android:screenOrientation="portrait">
 <!--            This is the splash activity -->
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name = "android.intent.action.CREATE_SHORTCUT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
     </application>
 

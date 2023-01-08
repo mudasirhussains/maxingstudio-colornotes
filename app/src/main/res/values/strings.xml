@@ -58,4 +58,6 @@
 <!--    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>-->
 <!--    <string name="native_ad_unit_id">ca-app-pub-3940256099942544/2247696110</string>-->
     <string name="get_started">Get Started</string>
+    <string name="change_category">Change Category</string>
+    <string name="delete">Delete</string>
 </resources>

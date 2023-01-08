@@ -1,6 +1,8 @@
 package com.notes.colornotes.fragments.allnotes
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -16,15 +18,19 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
+import java.lang.reflect.Field
+import java.lang.reflect.Method
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -262,6 +268,62 @@ class MainFragment : Fragment(), NotesListener, CategoriesListeners {
         }
     }
 
+    @SuppressLint("SuspiciousIndentation")
+    override fun onNoteOptionMenu(noteModel: NoteModel?, position: Int) {
+        val wrapper: Context = ContextThemeWrapper(requireContext(), R.style.MyPopupStyle)
+        val popup = PopupMenu(wrapper, binding.notesRecyclerView[position].findViewById(R.id.imageMenuCard))
+        /*  The below code in try catch is responsible to display icons*/
+            try {
+                val fields = popup.javaClass.declaredFields
+                for (field in fields) {
+                    if ("mPopup" == field.name) {
+                        field.isAccessible = true
+                        val menuPopupHelper = field[popup]
+                        val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                        val setForceIcons = classPopupHelper.getMethod(
+                            "setForceShowIcon",
+                            Boolean::class.javaPrimitiveType
+                        )
+                        setForceIcons.invoke(menuPopupHelper, true)
+                        break
+                    }
+                }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+        popup.menuInflater.inflate(R.menu.options_menu_note, popup.menu)
+        popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                when (item?.itemId) {
+                    R.id.changeCategoryOptionMenu -> {
+                        isFromOptionMenu = true
+                        onNoteClicked(noteModel, position)
+                        return true
+                    }
+                    R.id.shareOptionMenu -> {
+                        val finalText: String =
+                            "Color Notes \n\n Title: " + noteModel?.title.toString() +
+                                    "\n Subtitle: " + noteModel?.subtitle.toString() +
+                                    "\n Notes: " + noteModel?.noteText.toString()
+                        val intent = Intent(Intent.ACTION_SEND)
+                        intent.type = "text/plain"
+                        intent.putExtra(Intent.EXTRA_TEXT, finalText)
+                        startActivity(Intent.createChooser(intent, "Share Via"))
+                        return true
+                    }
+                    R.id.deleteOptionMenu -> {
+                        noteModel?.isSelected = true
+                        actionDelete()
+                        Toast.makeText(requireContext(), "Item 3 clicked", Toast.LENGTH_SHORT)
+                            .show()
+                        return true
+                    }
+                }
+                return false
+            }
+        })
+        popup.show()
+    }
 
     private fun getNotes(requestCode: Int, isNoteDeleted: Boolean) {
         class GetNoteTask :
@@ -470,12 +532,9 @@ class MainFragment : Fragment(), NotesListener, CategoriesListeners {
             val stringBuilder = StringBuilder()
             for (i in 0 until notesAdapter?.getSelected()!!.size) {
                 deleteList.add(notesAdapter?.getSelected()!![i].id)
-//                noteList.removeAt(notesAdapter?.getSelected()!![i].id)
-//                notesAdapter!!.notifyItemRemoved(notesAdapter?.getSelected()!![i].id)
                 stringBuilder.append(notesAdapter?.getSelected()!![i].id)
                 stringBuilder.append("\n")
             }
-//            showToast(stringBuilder.toString().trim { it <= ' ' })
             if (noteList.size === 0) {
                 showToast("Nothing")
             }
@@ -608,6 +667,10 @@ class MainFragment : Fragment(), NotesListener, CategoriesListeners {
         }
         notesAdapter = NotesAdapter(noteList, this)
         binding.notesRecyclerView.adapter = notesAdapter
+    }
+
+    companion object{
+        var isFromOptionMenu : Boolean = false
     }
 
 }

@@ -30,6 +30,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.notes.colornotes.R
 import com.notes.colornotes.databinding.ActivityCreateNoteBinding
+import com.notes.colornotes.fragments.allnotes.MainFragment
 import com.notes.colornotes.room.database.DatabaseBuilder
 import com.notes.colornotes.room.entity.NoteModel
 import com.notes.colornotes.util.ICreateNoteListener
@@ -133,6 +134,10 @@ class CreateNoteActivity : AppCompatActivity(),
         setSubtitleIndicatorColor()
 
         callBacks()
+        if (MainFragment.isFromOptionMenu){
+            MainFragment.isFromOptionMenu = false
+            callCategoryPopup()
+        }
     }
 
     private fun callBacks() {

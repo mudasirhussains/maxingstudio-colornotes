@@ -28,11 +28,21 @@
             android:id="@+id/imageFav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_toStartOf="@+id/imageMenuCard"
             android:layout_gravity="end"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginEnd="@dimen/_8sdp"
             android:src="@drawable/ic_filled_fav" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageMenuCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/ic_more_vert" />
 
     </RelativeLayout>
 

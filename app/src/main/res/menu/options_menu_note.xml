@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+        <item
+            android:id="@+id/changeCategoryOptionMenu"
+            android:icon="@drawable/ic_category"
+            android:title="@string/change_category" />
+
+        <item
+            android:id="@+id/shareOptionMenu"
+            android:icon="@drawable/ic_android_share"
+            android:title="@string/nav_share" />
+
+        <item
+            android:id="@+id/deleteOptionMenu"
+            android:icon="@drawable/ic_delete_option_menu"
+            android:title="@string/delete" />
+
+</menu>

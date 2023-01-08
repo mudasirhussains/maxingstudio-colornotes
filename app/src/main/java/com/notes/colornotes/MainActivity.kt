@@ -143,9 +143,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }
-            R.id.action_select -> {
-                Toast.makeText(applicationContext, "Select", Toast.LENGTH_SHORT).show()
-            }
+//            R.id.action_select -> {
+//                Toast.makeText(applicationContext, "Select", Toast.LENGTH_SHORT).show()
+//            }
             R.id.action_sort -> {
 
 

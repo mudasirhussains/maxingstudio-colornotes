@@ -21,11 +21,11 @@
         android:icon="@drawable/ic_delete"
         android:title="@string/menu_delete_view" />
 
-    <item
-        android:id="@+id/action_select"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_dots_two"
-        android:title="@string/menu_select" />
+<!--    <item-->
+<!--        android:id="@+id/action_select"-->
+<!--        android:orderInCategory="100"-->
+<!--        android:icon="@drawable/ic_dots_two"-->
+<!--        android:title="@string/menu_select" />-->
 
     <item
         android:id="@+id/action_sort"
