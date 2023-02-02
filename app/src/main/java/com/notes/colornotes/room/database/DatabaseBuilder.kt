@@ -9,7 +9,7 @@ import com.notes.colornotes.room.entity.NoteModel
 
 @Database(
     entities = [NoteModel::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class DatabaseBuilder : RoomDatabase() {
