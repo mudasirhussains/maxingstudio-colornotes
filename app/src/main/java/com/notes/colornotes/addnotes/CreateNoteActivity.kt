@@ -3,6 +3,7 @@ package com.notes.colornotes.addnotes
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -52,6 +53,7 @@ class CreateNoteActivity : AppCompatActivity(),
     private var mInterstitialAd: InterstitialAd? = null
     var cal = Calendar.getInstance()
     lateinit var helper: TextViewUndoRedo
+    var progressDialog: ProgressDialog? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setBinding()
@@ -76,12 +78,7 @@ class CreateNoteActivity : AppCompatActivity(),
 
 //        binding.imageSave.isEnabled = false
         binding.imageSave.setOnClickListener {
-            if (isNetworkAvailable(this)) {
-                //showInterstitial()
-                toNextLevel()
-            } else {
-                saveNote()
-            }
+            loadDialog()
         }
 
         // undo/redo
@@ -662,7 +659,8 @@ class CreateNoteActivity : AppCompatActivity(),
     private fun loadAd() {
         InterstitialAd.load(
             this@CreateNoteActivity,
-            "ca-app-pub-4820125560371856/4644221002",
+            "ca-app-pub-4820125560371856/4644221002", //real id
+//            "ca-app-pub-3940256099942544/1033173712", // testing id
             AdRequest.Builder().build(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -707,7 +705,6 @@ class CreateNoteActivity : AppCompatActivity(),
             mInterstitialAd?.show(this@CreateNoteActivity)
         } else {
             saveNote()
-
             // in case you want to load a new ad
             requestNewInterstitial()
         }
@@ -726,5 +723,26 @@ class CreateNoteActivity : AppCompatActivity(),
             context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!.isConnected
         return true
+    }
+    fun loadDialog(){
+        progressDialog = ProgressDialog(this@CreateNoteActivity)
+        progressDialog!!.setMessage("Loading...") // Setting Message
+        progressDialog!!.setTitle("Saving Your Note") // Setting Title
+        progressDialog!!.setProgressStyle(ProgressDialog.STYLE_SPINNER) // Progress Dialog Style Spinner
+        progressDialog!!.show() // Display Progress Dialog
+        progressDialog!!.setCancelable(false)
+        Thread {
+            try {
+                Thread.sleep(1500)
+                if (isNetworkAvailable(this)) {
+                toNextLevel()
+            } else {
+                saveNote()
+            }
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
+            progressDialog!!.dismiss()
+        }.start()
     }
 }

@@ -72,86 +72,104 @@
             android:id="@+id/flContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/framecontainer"
             android:layout_below="@+id/toolbar"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-        <FrameLayout
-            android:id="@+id/framecontainer"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/bottomLinear"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_70sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_alignParentBottom="true">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <FrameLayout
+                android:id="@+id/framecontainer"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_42sdp"
-                android:layout_gravity="bottom"
-                android:background="#EDEDED"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/_70sdp">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/b_sheet_home"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:foreground="?android:selectableItemBackgroundBorderless"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/_15sdp">
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_gravity="bottom"
+                    android:background="#EDEDED"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ic_sheet_home" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/b_sheet_calender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:foreground="?android:selectableItemBackgroundBorderless"
-                    android:gravity="center"
-                    android:paddingEnd="@dimen/_15sdp">
-
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:src="@drawable/ic_sheet_calender" />
-
-                </androidx.appcompat.widget.LinearLayoutCompat>
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/addNoteBtn"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_gravity="center|top"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="@dimen/_25sdp">
-
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/btn_plus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:foreground="?android:selectableItemBackground"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:layout_width="@dimen/_48sdp"
-                        android:layout_height="@dimen/_48sdp"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/b_sheet_home"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_main_plus_btn" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.cardview.widget.CardView>
+                        android:layout_weight="1"
+                        android:foreground="?android:selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:paddingEnd="@dimen/_15sdp">
 
-        </FrameLayout>
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:src="@drawable/ic_sheet_home" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/b_sheet_calender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:foreground="?android:selectableItemBackgroundBorderless"
+                        android:gravity="center"
+                        android:paddingEnd="@dimen/_15sdp">
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:src="@drawable/ic_sheet_calender" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/addNoteBtn"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center|top"
+                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="@dimen/_25sdp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/btn_plus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:foreground="?android:selectableItemBackground"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:layout_width="@dimen/_48sdp"
+                            android:layout_height="@dimen/_48sdp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_main_plus_btn" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </androidx.cardview.widget.CardView>
+
+            </FrameLayout>
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/ad_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:adSize="BANNER"
+                app:adUnitId="@string/banner_ad_unit_id" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
 
     </RelativeLayout>
 

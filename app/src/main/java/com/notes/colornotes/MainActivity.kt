@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity() {
         setDefaultFragment(savedInstanceState)
         setDrawerToggle()
 
+        loadAds()
+
+        val adRequest = AdRequest.Builder().build()
+        binding.adView.loadAd(adRequest)
+
 
 
         binding.clearText.setOnClickListener {
@@ -421,6 +426,59 @@ class MainActivity : AppCompatActivity() {
         adView.setNativeAd(nativeAd)
 
 
+    }
+
+    private fun loadAds() {
+        binding.adView.adListener = object : AdListener() {
+            override fun onAdFailedToLoad(p0: LoadAdError) {
+                super.onAdFailedToLoad(p0)
+                val toastMessage: String = "ad fail to load"
+                //Toast.makeText(requireContext(), toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onAdLoaded() {
+                super.onAdLoaded()
+                val toastMessage: String = "ad loaded"
+                // Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onAdOpened() {
+                super.onAdOpened()
+                val toastMessage: String = "ad is open"
+//                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onAdClicked() {
+                super.onAdClicked()
+                val toastMessage: String = "ad is clicked"
+//                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onAdClosed() {
+                super.onAdClosed()
+                val toastMessage: String = "ad is closed"
+//                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+
+            override fun onAdImpression() {
+                super.onAdImpression()
+                val toastMessage: String = "ad impression"
+//                Toast.makeText(applicationContext, toastMessage.toString(), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    override fun onPause() {
+        if (binding.adView != null) {
+            binding.adView.pause();
+        }
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        if (binding.adView != null) {
+            binding.adView.resume();
+        }
+        super.onDestroy()
     }
 
 }

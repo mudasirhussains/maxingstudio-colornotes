@@ -86,14 +86,7 @@
                 android:layout_marginEnd="@dimen/_12sdp"
                 android:layout_below="@+id/ad_view" />
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/ad_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                app:adSize="BANNER"
-                app:adUnitId="@string/banner_ad_unit_id" />
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/notesRecyclerView"
@@ -103,6 +96,7 @@
                 android:layout_marginEnd="@dimen/_2sdp"
                 android:clipToPadding="false"
                 android:layout_below="@id/ad_view"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:paddingStart="0dp"
                 android:paddingLeft="0dp"
                 android:paddingEnd="@dimen/_12sdp"
